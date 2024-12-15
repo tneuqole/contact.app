@@ -1,0 +1,16 @@
+[project]
+name = "contact-app"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "flask>=3.1.0",
+]
+
+[dependency-groups]
+dev = [
+    "isort>=5.13.2",
+    "pynvim>=0.5.2",
+    "ruff>=0.8.3",
+]
