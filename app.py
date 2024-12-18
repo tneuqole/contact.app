@@ -16,12 +16,13 @@ def index():
 @app.route("/contacts")
 def get_contacts():
     q = request.args.get("q")
+    page = int(request.args.get("page", 1))
     if q is not None:
         contacts = Contacts.search(q)
     else:
-        contacts = Contacts.all()
+        contacts = Contacts.all(page)
 
-    return render_template("index.html", contacts=contacts)
+    return render_template("index.html", contacts=contacts, page=page)
 
 
 @app.route("/contacts/new", methods=["GET"])
@@ -73,9 +74,17 @@ def post_edit_contact(id):
         return render_template("edit_contact.html", contact=c)
 
 
-@app.route("/contacts/<id>/delete", methods=["POST"])
+@app.route("/contacts/<id>", methods=["DELETE"])
 def delete_contact(id):
     c = Contacts.find(id)
     c.delete()
     flash("Deleted contact!")
-    return redirect("/contacts")
+    return redirect("/contacts", 303)
+
+
+@app.route("/contacts/<id>/email")
+def get_contact_email(id):
+    c = Contacts.find(id)
+    c.email = request.args.get("email")
+    c.validate()
+    return c.errors.get("email", "")

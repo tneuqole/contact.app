@@ -3,7 +3,7 @@ import time
 from random import random
 from threading import Thread
 
-PAGE_SIZE = 100
+PAGE_SIZE = 10
 
 
 class Contacts:
